@@ -4,6 +4,7 @@
   var CONFIG = {
     email: "foot123trick@gmail.com",
     phone: "9761805799",
+    endpoint: "https://formsubmit.co/ajax/foot123trick@gmail.com", // sends the form to your inbox
     usdRate: 140, // Rs. per 1 USD. Change this number if the exchange rate moves.
   };
 
@@ -251,7 +252,36 @@
     });
   });
 
-  /* Contact form: validates, then opens the visitor's email app with the message filled in */
+  /* Popup */
+  var modal = $("#modal");
+  function openModal(opts) {
+    $("#modalTitle").textContent = opts.title;
+    $("#modalText").textContent = opts.text;
+    modal.classList.toggle("is-error", Boolean(opts.error));
+    var box = $("#modalActions");
+    box.innerHTML = "";
+    opts.actions.forEach(function (a) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "btn btn-" + a.kind;
+      b.textContent = a.label;
+      b.addEventListener("click", function () {
+        modal.close();
+        if (a.onClick) a.onClick();
+      });
+      box.appendChild(b);
+    });
+    if (typeof modal.showModal === "function") {
+      modal.showModal();
+    } else {
+      modal.setAttribute("open", "");
+    }
+  }
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) modal.close();
+  });
+
+  /* Contact form: validates, sends the message to the inbox, then shows a popup */
   var form = $("#contactForm");
   var status = $("#formStatus");
 
@@ -295,28 +325,91 @@
       return;
     }
 
-    var subject = "Enquiry: " + service + " (from " + name + ")";
-    var body =
-      "Name: " +
-      name +
-      "\nEmail: " +
-      email +
-      "\nService: " +
-      service +
-      "\n\n" +
-      message;
-    window.location.href =
-      "mailto:" +
-      CONFIG.email +
-      "?subject=" +
-      encodeURIComponent(subject) +
-      "&body=" +
-      encodeURIComponent(body);
+    if ($("#fHoney").value) {
+      return;
+    } // filled only by bots
 
-    status.textContent =
-      "Your email app should open with the message ready to send. If nothing opens, write to " +
-      CONFIG.email +
-      " directly.";
+    var subject = "Enquiry: " + service + " (from " + name + ")";
+    var submitBtn = $("#submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    status.textContent = "";
+
+    fetch(CONFIG.endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        service: service,
+        message: message,
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+      }),
+    })
+      .then(function (res) {
+        return res.json().then(function (data) {
+          return { ok: res.ok, data: data };
+        });
+      })
+      .then(function (r) {
+        if (!r.ok || !(r.data.success === true || r.data.success === "true")) {
+          throw new Error((r.data && r.data.message) || "Request failed");
+        }
+        form.reset();
+        openModal({
+          title: "Message sent",
+          text:
+            "Thanks, " +
+            name +
+            '. Your message about "' +
+            service +
+            '" has reached my inbox. I will reply to ' +
+            email +
+            ".",
+          actions: [{ label: "Close", kind: "solid" }],
+        });
+      })
+      .catch(function () {
+        openModal({
+          title: "Message not sent",
+          text: "The message could not be delivered. Check your internet connection and try again, or send it from your own email app instead.",
+          error: true,
+          actions: [
+            { label: "Try again", kind: "solid" },
+            {
+              label: "Open email app",
+              kind: "line",
+              onClick: function () {
+                window.location.href =
+                  "mailto:" +
+                  CONFIG.email +
+                  "?subject=" +
+                  encodeURIComponent(subject) +
+                  "&body=" +
+                  encodeURIComponent(
+                    "Name: " +
+                      name +
+                      "\nEmail: " +
+                      email +
+                      "\nService: " +
+                      service +
+                      "\n\n" +
+                      message,
+                  );
+              },
+            },
+          ],
+        });
+      })
+      .then(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send message";
+      });
   });
 
   ["fName", "fEmail", "fMessage"].forEach(function (id) {
