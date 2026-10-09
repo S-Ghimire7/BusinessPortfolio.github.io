@@ -4,7 +4,6 @@
   var CONFIG = {
     email: "foot123trick@gmail.com",
     phone: "9761805799",
-    endpoint: "https://formsubmit.co/ajax/foot123trick@gmail.com", // sends the form to your inbox
     usdRate: 140, // Rs. per 1 USD. Change this number if the exchange rate moves.
   };
 
@@ -204,19 +203,12 @@
     });
   });
 
-  /* Service buttons fill the form */
-  var serviceSelect = $("#fService");
+  /* Service buttons jump to the contact section */
   $$(".pick").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      serviceSelect.value = btn.getAttribute("data-service");
-      var target = $("#contact");
-      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-      setTimeout(
-        function () {
-          $("#fName").focus({ preventScroll: true });
-        },
-        reduceMotion ? 0 : 500,
-      );
+      $("#contact").scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
     });
   });
 
@@ -249,173 +241,6 @@
         }
         document.body.removeChild(tmp);
       }
-    });
-  });
-
-  /* Popup */
-  var modal = $("#modal");
-  function openModal(opts) {
-    $("#modalTitle").textContent = opts.title;
-    $("#modalText").textContent = opts.text;
-    modal.classList.toggle("is-error", Boolean(opts.error));
-    var box = $("#modalActions");
-    box.innerHTML = "";
-    opts.actions.forEach(function (a) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "btn btn-" + a.kind;
-      b.textContent = a.label;
-      b.addEventListener("click", function () {
-        modal.close();
-        if (a.onClick) a.onClick();
-      });
-      box.appendChild(b);
-    });
-    if (typeof modal.showModal === "function") {
-      modal.showModal();
-    } else {
-      modal.setAttribute("open", "");
-    }
-  }
-  modal.addEventListener("click", function (e) {
-    if (e.target === modal) modal.close();
-  });
-
-  /* Contact form: validates, sends the message to the inbox, then shows a popup */
-  var form = $("#contactForm");
-  var status = $("#formStatus");
-
-  function setError(fieldId, errId, message) {
-    var input = document.getElementById(fieldId);
-    var err = document.getElementById(errId);
-    err.textContent = message;
-    input.closest(".field").classList.toggle("invalid", Boolean(message));
-    input.setAttribute("aria-invalid", message ? "true" : "false");
-    return !message;
-  }
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    status.textContent = "";
-
-    var name = $("#fName").value.trim();
-    var email = $("#fEmail").value.trim();
-    var service = serviceSelect.value;
-    var message = $("#fMessage").value.trim();
-
-    var okName = setError("fName", "errName", name ? "" : "Enter your name.");
-    var okEmail = setError(
-      "fEmail",
-      "errEmail",
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)
-        ? ""
-        : "Enter an email address like name@example.com.",
-    );
-    var okMsg = setError(
-      "fMessage",
-      "errMessage",
-      message.length >= 10
-        ? ""
-        : "Describe what you need in at least 10 characters.",
-    );
-
-    if (!(okName && okEmail && okMsg)) {
-      var firstBad = $('[aria-invalid="true"]', form);
-      if (firstBad) firstBad.focus();
-      return;
-    }
-
-    if ($("#fHoney").value) {
-      return;
-    } // filled only by bots
-
-    var subject = "Enquiry: " + service + " (from " + name + ")";
-    var submitBtn = $("#submitBtn");
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
-    status.textContent = "";
-
-    fetch(CONFIG.endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        service: service,
-        message: message,
-        _subject: subject,
-        _template: "table",
-        _captcha: "false",
-      }),
-    })
-      .then(function (res) {
-        return res.json().then(function (data) {
-          return { ok: res.ok, data: data };
-        });
-      })
-      .then(function (r) {
-        if (!r.ok || !(r.data.success === true || r.data.success === "true")) {
-          throw new Error((r.data && r.data.message) || "Request failed");
-        }
-        form.reset();
-        openModal({
-          title: "Message sent",
-          text:
-            "Thanks, " +
-            name +
-            '. Your message about "' +
-            service +
-            '" has reached my inbox. I will reply to ' +
-            email +
-            ".",
-          actions: [{ label: "Close", kind: "solid" }],
-        });
-      })
-      .catch(function () {
-        openModal({
-          title: "Message not sent",
-          text: "The message could not be delivered. Check your internet connection and try again, or send it from your own email app instead.",
-          error: true,
-          actions: [
-            { label: "Try again", kind: "solid" },
-            {
-              label: "Open email app",
-              kind: "line",
-              onClick: function () {
-                window.location.href =
-                  "mailto:" +
-                  CONFIG.email +
-                  "?subject=" +
-                  encodeURIComponent(subject) +
-                  "&body=" +
-                  encodeURIComponent(
-                    "Name: " +
-                      name +
-                      "\nEmail: " +
-                      email +
-                      "\nService: " +
-                      service +
-                      "\n\n" +
-                      message,
-                  );
-              },
-            },
-          ],
-        });
-      })
-      .then(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Send message";
-      });
-  });
-
-  ["fName", "fEmail", "fMessage"].forEach(function (id) {
-    document.getElementById(id).addEventListener("input", function () {
-      var errId = "err" + id.slice(1);
-      setError(id, errId, "");
     });
   });
 
