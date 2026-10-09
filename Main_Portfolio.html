@@ -1,11 +1,462 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shlok Ghimire | Assignment help, tutoring and projects</title>
+    <meta
+      name="description"
+      content="Shlok Ghimire is a second-year bachelor's student offering assignment planning, study support, assignments and project tutoring. Skills in HTML, CSS, JavaScript, Python, SQL, Unity and Linux."
+    />
+    <meta name="theme-color" content="#14213d" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2314213d'/%3E%3Crect x='14' y='0' width='3' height='64' fill='%23d62839'/%3E%3Ctext x='38' y='42' font-family='Arial' font-weight='700' font-size='26' text-anchor='middle' fill='white'%3ESG%3C/text%3E%3C/svg%3E"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Main_Portfolio.css" />
+
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("sg-theme");
+          var dark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.setAttribute(
+            "data-theme",
+            saved || (dark ? "dark" : "light"),
+          );
+        } catch (e) {}
+      })();
+    </script>
+    <script src="Main_Portfolio.js" defer></script>
   </head>
   <body>
-    Hello
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header" id="top">
+      <div class="bar">
+        <a class="brand" href="#home">Shlok Ghimire</a>
+
+        <nav class="nav" id="nav" aria-label="Main">
+          <a href="#home" data-link="home">Home</a>
+          <a href="#skills" data-link="skills">Skills</a>
+          <a href="#services" data-link="services">Services</a>
+          <a href="#contact" data-link="contact">Contact</a>
+        </nav>
+
+        <div class="bar-tools">
+          <button
+            class="icon-btn"
+            id="themeToggle"
+            type="button"
+            aria-label="Switch to dark theme"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <circle
+                cx="12"
+                cy="12"
+                r="8.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" />
+            </svg>
+          </button>
+          <button
+            class="icon-btn menu-btn"
+            id="menuToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav"
+            aria-label="Open menu"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path
+                d="M4 7h16M4 12h16M4 17h16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Home -->
+      <section class="hero wrap" id="home" aria-labelledby="heroTitle">
+        <div class="inner hero-grid">
+          <div class="hero-text">
+            <h1 id="heroTitle">Shlok<br />Ghimire</h1>
+            <p class="lead">
+              Second-year bachelor's student. I help with assignment plans,
+              study support, finished assignments and longer projects, and I
+              work in HTML, CSS, JavaScript, Python, SQL and Unity.
+            </p>
+
+            <div class="actions">
+              <a class="btn btn-solid" href="#services"
+                >See services and prices</a
+              >
+              <a class="btn btn-line" href="#contact">Get in touch</a>
+            </div>
+
+            <dl class="facts">
+              <div>
+                <dt>Studying</dt>
+                <dd>Bachelor's degree, second year</dd>
+              </div>
+              <div>
+                <dt>Clients</dt>
+                <dd>Students in Nepal and abroad</dd>
+              </div>
+              <div>
+                <dt>Reply by</dt>
+                <dd>Email or phone call</dd>
+              </div>
+            </dl>
+          </div>
+
+          <figure
+            class="sheet"
+            aria-label="A short Python example that splits an assignment into scheduled steps"
+          >
+            <figcaption class="sheet-title">plan.py</figcaption>
+            <pre
+              class="code"
+              aria-hidden="true"
+            ><code id="typed"></code><span class="caret"></span></pre>
+            <noscript>
+              <pre class="code"><code>def plan(assignment, days_left):
+    steps = break_down(assignment)
+    pace = len(steps) / days_left
+    for step in steps:
+        step.due = schedule(step, pace)
+    return steps</code></pre>
+            </noscript>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section class="section wrap" id="skills" aria-labelledby="skillsTitle">
+        <div class="inner">
+          <div class="section-head">
+            <h2 id="skillsTitle">What I work with</h2>
+            <p>
+              Seven tools I use for coursework and projects. Pick a group to
+              narrow the list.
+            </p>
+          </div>
+
+          <div class="chips" role="group" aria-label="Filter skills">
+            <button
+              class="chip"
+              type="button"
+              data-filter="all"
+              aria-pressed="true"
+            >
+              All
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-filter="web"
+              aria-pressed="false"
+            >
+              Web
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-filter="programming"
+              aria-pressed="false"
+            >
+              Programming
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-filter="data"
+              aria-pressed="false"
+            >
+              Data and systems
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-filter="games"
+              aria-pressed="false"
+            >
+              Games
+            </button>
+          </div>
+
+          <ul class="skill-list" id="skillList">
+            <li class="skill" data-cat="web">
+              <span class="skill-name">HTML</span>
+              <span class="skill-desc">Building web page structures</span>
+              <span class="tag">Web</span>
+            </li>
+            <li class="skill" data-cat="web">
+              <span class="skill-name">CSS</span>
+              <span class="skill-desc">Styling and responsive layouts</span>
+              <span class="tag">Web</span>
+            </li>
+            <li class="skill" data-cat="web">
+              <span class="skill-name">JavaScript</span>
+              <span class="skill-desc">Adding interactivity</span>
+              <span class="tag">Web</span>
+            </li>
+            <li class="skill" data-cat="programming">
+              <span class="skill-name">Python</span>
+              <span class="skill-desc">Programming and scripting</span>
+              <span class="tag">Programming</span>
+            </li>
+            <li class="skill" data-cat="games">
+              <span class="skill-name">Unity</span>
+              <span class="skill-desc">Game development</span>
+              <span class="tag">Games</span>
+            </li>
+            <li class="skill" data-cat="data">
+              <span class="skill-name">SQL</span>
+              <span class="skill-desc">Working with databases</span>
+              <span class="tag">Data and systems</span>
+            </li>
+            <li class="skill" data-cat="data">
+              <span class="skill-name">Linux</span>
+              <span class="skill-desc">Some experience using Linux</span>
+              <span class="tag">Data and systems</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section
+        class="section wrap"
+        id="services"
+        aria-labelledby="servicesTitle"
+      >
+        <div class="inner">
+          <div class="section-head split">
+            <div>
+              <h2 id="servicesTitle">Services and prices</h2>
+              <p>
+                Four ways to work together. Choose one and I will fill it in on
+                the contact form for you.
+              </p>
+            </div>
+
+            <div class="currency" role="group" aria-label="Show prices in">
+              <button
+                type="button"
+                class="cur-btn"
+                data-cur="NPR"
+                aria-pressed="true"
+              >
+                Rs. (NPR)
+              </button>
+              <button
+                type="button"
+                class="cur-btn"
+                data-cur="USD"
+                aria-pressed="false"
+              >
+                $ (USD)
+              </button>
+            </div>
+          </div>
+
+          <div class="plans">
+            <article class="plan">
+              <h3>Assignment planning</h3>
+              <p class="plan-desc">
+                Your assignment broken into clear steps with a schedule you can
+                follow.
+              </p>
+              <p class="price" data-npr="1000">Rs. 1,000</p>
+              <button
+                class="btn btn-line pick"
+                type="button"
+                data-service="Assignment planning"
+              >
+                Ask about this
+              </button>
+            </article>
+
+            <article class="plan">
+              <h3>Study support package</h3>
+              <p class="plan-desc">
+                Guided help with concepts and revision for your coursework.
+              </p>
+              <p class="price" data-npr="2000">Rs. 2,000</p>
+              <button
+                class="btn btn-line pick"
+                type="button"
+                data-service="Study support package"
+              >
+                Ask about this
+              </button>
+            </article>
+
+            <article class="plan">
+              <h3>Assignments</h3>
+              <p class="plan-desc">
+                A completed assignment with explanations, so you can follow
+                every part of the work.
+              </p>
+              <p class="price" data-npr="6000">Rs. 6,000</p>
+              <button
+                class="btn btn-line pick"
+                type="button"
+                data-service="Assignments"
+              >
+                Ask about this
+              </button>
+            </article>
+
+            <article class="plan">
+              <h3>Extended tutoring and project</h3>
+              <p class="plan-desc">
+                Ongoing tutoring sessions or a larger project. We agree the
+                scope together first.
+              </p>
+              <p class="price" data-npr="8000" data-plus="true">Rs. 8,000+</p>
+              <button
+                class="btn btn-line pick"
+                type="button"
+                data-service="Extended tutoring and project"
+              >
+                Ask about this
+              </button>
+            </article>
+          </div>
+
+          <p class="fine" id="currencyNote">All prices are in Nepali rupees.</p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section wrap" id="contact" aria-labelledby="contactTitle">
+        <div class="inner">
+          <div class="section-head">
+            <h2 id="contactTitle">Get in touch</h2>
+            <p>
+              Tell me what you need and when it is due. I will reply with a plan
+              and a price.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="direct">
+              <div class="direct-row">
+                <div>
+                  <span class="direct-label">Email</span>
+                  <a class="direct-value" href="mailto:foot123trick@gmail.com"
+                    >foot123trick@gmail.com</a
+                  >
+                </div>
+                <button
+                  class="copy"
+                  type="button"
+                  data-copy="foot123trick@gmail.com"
+                  data-what="Email address"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <div class="direct-row">
+                <div>
+                  <span class="direct-label">Phone</span>
+                  <a class="direct-value" href="tel:+9779761805799"
+                    >9761805799</a
+                  >
+                </div>
+                <button
+                  class="copy"
+                  type="button"
+                  data-copy="9761805799"
+                  data-what="Phone number"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <form class="form" id="contactForm" novalidate>
+              <div class="field">
+                <label for="fName">Your name</label>
+                <input
+                  id="fName"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                />
+                <p class="err" id="errName" role="alert"></p>
+              </div>
+
+              <div class="field">
+                <label for="fEmail">Your email</label>
+                <input
+                  id="fEmail"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+                <p class="err" id="errEmail" role="alert"></p>
+              </div>
+
+              <div class="field">
+                <label for="fService">Service</label>
+                <select id="fService" name="service">
+                  <option>Assignment planning</option>
+                  <option>Study support package</option>
+                  <option>Assignments</option>
+                  <option>Extended tutoring and project</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="fMessage">What do you need help with?</label>
+                <textarea
+                  id="fMessage"
+                  name="message"
+                  rows="5"
+                  required
+                ></textarea>
+                <p class="err" id="errMessage" role="alert"></p>
+              </div>
+
+              <button class="btn btn-solid" type="submit">Send message</button>
+              <p class="form-status" id="formStatus" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap">
+      <div class="inner foot">
+        <p>&copy; <span id="year">2026</span> Shlok Ghimire</p>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
